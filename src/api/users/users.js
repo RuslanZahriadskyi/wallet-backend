@@ -12,7 +12,7 @@ const upload = require("../../helpers/multer");
 
 router
   .post("/registration", createAccountLimiter, usersControllers.reg)
-  .post("/login", loginLimiter, usersControllers.login)
+  .post("/login", usersControllers.login)
   .post("/logout", guard, usersControllers.logout)
   .get("/current", guard, usersControllers.currentUser)
   .post(

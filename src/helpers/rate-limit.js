@@ -15,17 +15,17 @@ const createAccountLimiter = rateLimit({
   },
 });
 
-const loginLimiter = rateLimit({
-  windowMs: createUserLimit.windowMs, // time - createUserLimit.windowMs window
-  max: createUserLimit.max, // start blocking after createUserLimit.max requests
-  handler: (_req, res) => {
-    res.status(HttpCode.BAD_REQUEST).json({
-      status: "error",
-      code: HttpCode.BAD_REQUEST,
-      message:
-        "Too many login requests from this IP, please try again after 5 minutes",
-    });
-  },
-});
+// const loginLimiter = rateLimit({
+//   windowMs: createUserLimit.windowMs, // time - createUserLimit.windowMs window
+//   max: createUserLimit.max, // start blocking after createUserLimit.max requests
+//   handler: (_req, res) => {
+//     res.status(HttpCode.BAD_REQUEST).json({
+//       status: "error",
+//       code: HttpCode.BAD_REQUEST,
+//       message:
+//         "Too many login requests from this IP, please try again after 5 minutes",
+//     });
+//   },
+// });
 
-module.exports = { createAccountLimiter, loginLimiter };
+module.exports = { createAccountLimiter };

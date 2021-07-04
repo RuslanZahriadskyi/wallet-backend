@@ -7,9 +7,9 @@ const { HttpCode } = require("./helpers/constants");
 const { apiLimit } = require("./config/rate-limit.json");
 const { ErrorHandler } = require("./helpers/errorHandler");
 
-// const contactsRouter = require("./api/contacts/contacts");
+const operationsRouter = require("./api/operation/operation");
 const usersRouter = require("./api/users/users");
-// const swaggerRouter = require("./api/swagger/swagger");
+const swaggerRouter = require("./api/swagger/swagger");
 
 const app = express();
 
@@ -37,8 +37,8 @@ app.use(
 );
 
 app.use("/api/users", usersRouter);
-// app.use("/api/contacts", contactsRouter);
-// app.use("/api-docs", swaggerRouter);
+app.use("/api/operations", operationsRouter);
+app.use("/api-docs", swaggerRouter);
 
 app.use((req, res) => {
   res.status(HttpCode.NOT_FOUND).json({

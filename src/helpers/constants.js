@@ -17,4 +17,20 @@ const Subscription = {
   NONE: "none",
 };
 
-module.exports = { HttpCode, Subscription };
+const CategoryCosts = {
+  MAIN: "main",
+  FOOD: "food",
+  AUTO: "auto",
+  DEVELOP: "develop",
+  KIDS: "kids",
+  HOUSE: "house",
+  EDUCATION: "education",
+  OTHERS: "others",
+};
+
+const CategoryIncome = {
+  REGULAR: "regular",
+  IRREGULAR: "irregular",
+};
+
+module.exports = { HttpCode, Subscription, CategoryCosts, CategoryIncome };
