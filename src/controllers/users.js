@@ -21,6 +21,7 @@ const reg = async (req, res, next) => {
       subscription,
       avatar,
     });
+
     return res.status(HttpCode.CREATED).json({
       status: "success",
       code: HttpCode.CREATED,

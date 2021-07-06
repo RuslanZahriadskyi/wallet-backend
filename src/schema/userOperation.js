@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const { Schema } = mongoose;
-const OperationsSchema = require("./operations");
 
 const UserOperation = new Schema(
   {
-    userOperations: [OperationsSchema],
+    userOperations: [
+      { type: mongoose.SchemaTypes.ObjectId, ref: "operationUser" },
+    ],
     totalBalance: {
       type: Number,
-    },
-    typeTotalBalance: {
-      type: String,
     },
     owner: {
       type: mongoose.SchemaTypes.ObjectId,

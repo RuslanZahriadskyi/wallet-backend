@@ -1,9 +1,10 @@
-const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const OperationsSchema = new Schema(
+const OperationSchema = new Schema(
   {
     date: {
-      type: String,
+      type: Number,
     },
     category: {
       type: String,
@@ -21,11 +22,14 @@ const OperationsSchema = new Schema(
     balanceAfter: {
       type: Number,
     },
-    typeBalanceAfter: {
-      type: String,
+    owner: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "user",
     },
   },
   { versionKey: false, timestamps: true }
 );
+
+const OperationsSchema = mongoose.model("operationUser", OperationSchema);
 
 module.exports = OperationsSchema;

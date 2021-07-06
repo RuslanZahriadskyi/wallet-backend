@@ -6,6 +6,7 @@ const guard = require("../../helpers/guard");
 
 router
   .get("/", guard, operationControllers.getAllFinance)
+  .get("/statistics/:month/:year", guard, operationControllers.getStatistic)
   .post("/", guard, operationControllers.createOperation);
 
 // router

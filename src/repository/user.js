@@ -1,4 +1,5 @@
 const User = require("../schema/user");
+const UserFinance = require("../schema/userOperation");
 
 class UserRepository {
   constructor() {
@@ -7,6 +8,12 @@ class UserRepository {
 
   async createUser(body) {
     const user = new this.User(body);
+    const userFinance = new UserFinance({
+      owner: user._id,
+      totalBalance: 0,
+      typeTotalBalance: "+",
+    });
+    userFinance.save();
     return user.save();
   }
 

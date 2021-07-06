@@ -10,7 +10,10 @@ class FinanceService {
   async getAllFinance(userId, query) {
     const data = await this.repository.operations.getAllFinance(userId, query);
     const { userOperations, totalBalance, typeTotalBalance } = data;
-    return { userOperations, totalBalance, typeTotalBalance };
+    return {
+      userOperations,
+      totalBalance,
+    };
   }
 
   async createOperation(userId, newOperation) {
@@ -19,8 +22,17 @@ class FinanceService {
       newOperation
     );
 
-    const { totalBalance, userOperations, typeTotalBalance } = data;
-    return { totalBalance, userOperations, typeTotalBalance };
+    return data;
+  }
+
+  async getStatistic(userId, statisticFrom, statisticTo) {
+    const data = await this.repository.operations.getStatistic(
+      userId,
+      statisticFrom,
+      statisticTo
+    );
+
+    return data;
   }
 }
 

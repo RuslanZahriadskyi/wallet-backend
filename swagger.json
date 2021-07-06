@@ -34,28 +34,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "description": "responses status",
-                      "example": "success"
-                    },
-                    "code": {
-                      "type": "string",
-                      "description": "responses code",
-                      "example": "200"
-                    },
-                    "data": {
-                      "type": "object",
-                      "description": "responses data",
-                      "example": {
-                        "userOperations": [],
-                        "totalBalance": 5000,
-                        "typeTotalBalance": "+"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/Success Response"
                 }
               }
             }
@@ -101,8 +80,8 @@
                 ],
                 "properties": {
                   "date": {
-                    "type": "string",
-                    "example": "01.03.91",
+                    "type": "number",
+                    "example": 1633878419,
                     "description": "date"
                   },
                   "category": {
@@ -122,18 +101,8 @@
                   },
                   "type": {
                     "type": "string",
-                    "example": "income",
+                    "example": "income or outlay",
                     "description": "type"
-                  },
-                  "balanceAfter": {
-                    "type": "number",
-                    "example": 10000,
-                    "description": "balanceAfter"
-                  },
-                  "typeBalanceAfter": {
-                    "type": "string",
-                    "example": "+",
-                    "description": "typeBalanceAfter"
                   }
                 }
               }
@@ -146,7 +115,131 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Success Response"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "newOperation": {
+                          "date": 1620659219,
+                          "type": "outlay",
+                          "category": "house",
+                          "comments": "test1",
+                          "amount": 4000,
+                          "balanceAfter": -5000
+                        },
+                        "totalBalance": 5000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operations/statistics/{month}/{year}": {
+      "get": {
+        "tags": ["operations"],
+        "summary": "Get statistic per month and year",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "path",
+            "description": "month request",
+            "required": "true",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "description": "year request",
+            "required": "true",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "statistic": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "monthStatistic": [
+                          {
+                            "_id": "kids",
+                            "count": 2000
+                          },
+                          {
+                            "_id": "regular",
+                            "count": 5000
+                          }
+                        ],
+                        "incomeAndOutlayAmount": [
+                          {
+                            "_id": "outlay",
+                            "count": 2000
+                          },
+                          {
+                            "_id": "income",
+                            "count": 5000
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -721,8 +814,7 @@
             "description": "responses data",
             "example": {
               "userOperations": [],
-              "totalBalance": 5000,
-              "typeTotalBalance": "+"
+              "totalBalance": 5000
             }
           }
         },
