@@ -17,20 +17,26 @@ const Subscription = {
   NONE: "none",
 };
 
-const CategoryCosts = {
-  MAIN: "main",
-  FOOD: "food",
-  AUTO: "auto",
-  DEVELOP: "develop",
-  KIDS: "kids",
-  HOUSE: "house",
-  EDUCATION: "education",
-  OTHERS: "others",
-};
+// const OutlayCategory = {
+//   MAIN: "main",
+//   FOOD: "food",
+//   AUTO: "auto",
+//   DEVELOP: "develop",
+//   KIDS: "kids",
+//   HOUSE: "house",
+//   EDUCATION: "education",
+//   OTHERS: "others",
+// };
 
-const CategoryIncome = {
-  REGULAR: "regular",
-  IRREGULAR: "irregular",
-};
+const OutlayCategory = [
+  { value: "Основные расходы", color: "#FED057" },
+  { value: "Продукты", color: "#FFD8D0" },
+  { value: "Машина", color: "#FD9498" },
+  { value: "Забота о себе", color: "#C5BAFF" },
+  { value: "Забота о детях", color: "#6E78E8" },
+  { value: "Товары для дома", color: "#4A56E2" },
+  { value: "Образование", color: "#81E1FF" },
+  { value: "Досуг", color: "#24CCA7" },
+];
 
-module.exports = { HttpCode, Subscription, CategoryCosts, CategoryIncome };
+module.exports = { HttpCode, Subscription, OutlayCategory };

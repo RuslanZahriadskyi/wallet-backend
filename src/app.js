@@ -9,6 +9,7 @@ const { ErrorHandler } = require("./helpers/errorHandler");
 
 const operationsRouter = require("./api/operation/operation");
 const usersRouter = require("./api/users/users");
+const categoryRouter = require("./api/category/category");
 const swaggerRouter = require("./api/swagger/swagger");
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(
 
 app.use("/api/users", usersRouter);
 app.use("/api/operations", operationsRouter);
+app.use("/api/category", categoryRouter);
 app.use("/api-docs", swaggerRouter);
 
 app.use((req, res) => {

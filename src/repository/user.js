@@ -1,5 +1,8 @@
 const User = require("../schema/user");
 const UserFinance = require("../schema/userOperation");
+const UserCategories = require("../schema/userCategory");
+const CategoriesShema = require("../schema/categories");
+const { OutlayCategory } = require("../helpers/constants");
 
 class UserRepository {
   constructor() {
@@ -13,6 +16,22 @@ class UserRepository {
       totalBalance: 0,
       typeTotalBalance: "+",
     });
+    const userCategories = new UserCategories({
+      owner: user._id,
+      category: OutlayCategory.map((category) => {
+        const categoryUser = new CategoriesShema({
+          value: category.value,
+          color: category.color,
+          owner: user._id,
+        });
+
+        categoryUser.save();
+
+        return categoryUser;
+      }),
+    });
+
+    userCategories.save();
     userFinance.save();
     return user.save();
   }

@@ -12,6 +12,11 @@
       "name": "operations",
       "description": "Operations with your wallet"
     },
+
+    {
+      "name": "category",
+      "description": "Operations with category user"
+    },
     {
       "name": "user",
       "description": "Operations with user"
@@ -250,6 +255,169 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category": {
+      "get": {
+        "tags": ["category"],
+        "summary": "Get All User Categories",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "categories": []
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["category"],
+        "summary": "Create New Category",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["category"],
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "example": "sallary",
+                    "description": "category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "newCategory": {
+                          "_id": "60ecbdff1a167084f84a9737",
+                          "value": "New category",
+                          "color": "#f66502"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "status",
+                      "example": "error"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "code",
+                      "example": "409"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "conflict",
+                      "example": "This category already exist"
+                    }
+                  }
                 }
               }
             }
