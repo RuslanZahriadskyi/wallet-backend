@@ -31,7 +31,7 @@ class CategoryRepository {
 
     const { _id, value, color } = category;
 
-    return { _id, value, color };
+    return { id: _id, value, color };
   }
 
   async findCategory(userId, category) {

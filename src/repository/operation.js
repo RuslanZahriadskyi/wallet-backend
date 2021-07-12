@@ -47,6 +47,7 @@ class OperationRepository {
           $and: [
             { owner: mongoose.Types.ObjectId(userId) },
             { date: { $gte: statisticFrom, $lt: statisticTo } },
+            { type: "outlay" },
           ],
         },
       },
@@ -54,6 +55,13 @@ class OperationRepository {
         $group: {
           _id: "$category",
           count: { $sum: "$amount" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id",
+          count: 1,
         },
       },
     ]);
@@ -71,6 +79,13 @@ class OperationRepository {
         $group: {
           _id: "$type",
           count: { $sum: "$amount" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id",
+          count: 1,
         },
       },
     ]);

@@ -224,21 +224,21 @@
                       "example": {
                         "monthStatistic": [
                           {
-                            "_id": "kids",
+                            "name": "kids",
                             "count": 2000
                           },
                           {
-                            "_id": "regular",
+                            "name": "regular",
                             "count": 5000
                           }
                         ],
                         "incomeAndOutlayAmount": [
                           {
-                            "_id": "outlay",
+                            "name": "outlay",
                             "count": 2000
                           },
                           {
-                            "_id": "income",
+                            "name": "income",
                             "count": 5000
                           }
                         ]

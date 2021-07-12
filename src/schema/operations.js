@@ -27,7 +27,17 @@ const OperationSchema = new Schema(
       ref: "user",
     },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret) {
+        delete ret._id;
+        return ret;
+      },
+    },
+  }
 );
 
 const OperationsSchema = mongoose.model("operationUser", OperationSchema);

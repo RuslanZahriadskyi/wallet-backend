@@ -57,7 +57,17 @@ const usersSchema = new Schema(
       required: [true, "Verify token is required"],
     },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret) {
+        delete ret._id;
+        return ret;
+      },
+    },
+  }
 );
 
 usersSchema.pre("save", async function (next) {
