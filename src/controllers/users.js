@@ -44,11 +44,7 @@ const login = async (req, res, next) => {
 
     if (user) {
       return res.status(HttpCode.OK).json({
-        status: "success",
-        code: HttpCode.OK,
-        data: {
-          ...user,
-        },
+        ...user,
       });
     }
     next({
