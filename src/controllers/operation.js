@@ -68,10 +68,30 @@ const getStatistic = async (req, res, next) => {
       statisticTo
     );
 
+    let income = await statistic.incomeAndOutlayAmount.find(
+      (item) => item.name === "income"
+    );
+
+    if (!income) {
+      income = { count: 0 };
+    }
+
+    let outlay = await statistic.incomeAndOutlayAmount.find(
+      (item) => item.name === "outlay"
+    );
+
+    if (!outlay) {
+      outlay = { count: 0 };
+    }
+
     return res.status(HttpCode.OK).json({
       status: "success",
       code: HttpCode.OK,
-      statistic,
+      statistics: {
+        monthOutlay: statistic.monthStatistic,
+        income: income.count,
+        outlay: outlay.count,
+      },
     });
   } catch (error) {
     next(error);
