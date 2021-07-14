@@ -51,8 +51,9 @@ class UserRepository {
   }
 
   async getCurrentUser(id) {
-    const { name, email, subscription } = await this.User.findOne({ _id: id });
-    return { name, email, subscription };
+    const { name, email, subscription, avatar, avatarId } =
+      await this.User.findOne({ _id: id });
+    return { name, email, subscription, avatar, avatarId };
   }
 
   async updateSubscriptionStatus(id, body) {

@@ -70,9 +70,7 @@ const currentUser = async (req, res, next) => {
     const user = await userService.getCurrentUser(req.user.id);
     if (user) {
       return res.status(HttpCode.OK).json({
-        status: "success",
-        code: HttpCode.OK,
-        data: { user },
+        ...user,
       });
     }
     next({

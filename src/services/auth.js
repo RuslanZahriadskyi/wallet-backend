@@ -24,7 +24,7 @@ class AuthService {
 
     const { name, avatar, avatarId } = user;
 
-    return { name, token, avatar, avatarId, id, email };
+    return { name, token, avatar, avatarId, email };
   }
 
   async logout(id) {
