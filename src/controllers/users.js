@@ -40,14 +40,14 @@ const reg = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const token = await authService.login({ email, password });
+    const user = await authService.login({ email, password });
 
-    if (token) {
+    if (user) {
       return res.status(HttpCode.OK).json({
         status: "success",
         code: HttpCode.OK,
         data: {
-          token,
+          ...user,
         },
       });
     }
