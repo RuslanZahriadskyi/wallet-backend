@@ -46,7 +46,7 @@ const createCategory = async (req, res, next) => {
       colorForNewCategory
     );
 
-    if (colorExist.length > 0) {
+    if (colorExist.length > 0 || colorForNewCategory.length < 7) {
       colorForNewCategory =
         "#" + Math.floor(Math.random() * 16777215).toString(16);
     }
