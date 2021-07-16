@@ -50,7 +50,7 @@ class OperationRepository {
       { new: true }
     );
 
-    return { totalBalance: addOperation.totalBalance, newOperation: {} };
+    return { totalBalance: addOperation.totalBalance, newOperation };
   }
 
   async getStatistic(userId, statisticFrom, statisticTo) {
