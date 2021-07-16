@@ -34,7 +34,6 @@ class OperationRepository {
 
     if (newOperation.type === "income") {
       newOperation.balanceAfter = totalBalance + newOperation.amount;
-      newOperation.color = color;
     } else {
       newOperation.balanceAfter = totalBalance - newOperation.amount;
       newOperation.color = color;
