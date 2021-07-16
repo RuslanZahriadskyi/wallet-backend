@@ -113,6 +113,7 @@ const updateSubscriptionStatus = async (req, res, next) => {
 
 const avatars = async (req, res, next) => {
   try {
+    console.log(req.headers);
     const userId = req.user.id;
     const pathFile = req.file.path;
 

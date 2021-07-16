@@ -21,6 +21,7 @@ const upload = multer({
     if (file.mimetype.includes("image")) {
       return cb(null, true);
     }
+    console.log(file);
 
     cb(null, false);
   },

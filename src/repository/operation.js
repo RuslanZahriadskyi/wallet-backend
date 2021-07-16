@@ -41,6 +41,9 @@ class OperationRepository {
   }
 
   async getStatistic(userId, statisticFrom, statisticTo) {
+    console.log(userId);
+    console.log(statisticFrom);
+    console.log(statisticTo);
     const monthStatistic = await this.operation.aggregate([
       {
         $match: {

@@ -900,13 +900,18 @@
         "tags": ["user"],
         "summary": "Change user avatar",
         "security": [{ "Bearer": [] }],
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
             "name": "avatar",
-            "in": "formData",
+            "in": "query",
             "description": "upload new avatar",
             "required": true,
-            "schema": { "type": "file" }
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "file"
+            }
           }
         ],
         "responses": {

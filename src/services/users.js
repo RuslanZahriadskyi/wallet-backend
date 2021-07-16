@@ -62,6 +62,9 @@ class UsersService {
     try {
       const { secure_url: avatar, public_id: avatarId } =
         await this.#uploadCloudinaryImage(filePath);
+      console.log(avatar);
+      console.log(avatarId);
+
       const oldAvatar = await this.repository.users.getAvatar(id);
       if (oldAvatar) {
         this.cloudinary.uploader.destroy(oldAvatar.avatarId, (err, result) => {

@@ -1,0 +1,1287 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ContactsAPI",
+    "description": "Created by [Ruslan Zahriadskyi](https://github.com/RuslanZahriadskyi)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://own-contacts.herokuapp.com"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "contacts",
+      "description": "Operations with your contacts"
+    },
+    {
+      "name": "user",
+      "description": "Operations with user"
+    }
+  ],
+  "paths": {
+    "/api/contacts/{contactId}": {
+      "get": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Get Contact By Id",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact identificator",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Change Contact",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": " contact identificator",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Delete Contact",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact identificator",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Change Contact Status",
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "description": "contact identificator",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/contacts": {
+      "get": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Get All User Contacts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Create New Contact",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/registration": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Register new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_3"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_409"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Login user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_4"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login user success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invaid credincials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/current": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get Current User",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Change user subscription",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_5"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error400"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/verify": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Repeatedly UserVerify",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_6"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error404"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/logout": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logout user",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/avatars": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Change user avatar",
+        "parameters": [
+          {
+            "name": "avatar",
+            "in": "query",
+            "description": "upload new avatar",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "contact": {
+                "favorite": false,
+                "_id": "60da3be6cff67a28381f1212",
+                "name": "Firstaa Mongo",
+                "phone": "(992) 914-3872",
+                "email": "user.email@mail.com",
+                "owner": "60da233bff30f84fbcb908c7",
+                "createdAt": "2021-06-28T21:15:18.809Z",
+                "updatedAt": "2021-06-28T21:15:18.809Z"
+              }
+            }
+          }
+        },
+        "description": "success"
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "200"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "user": {
+                "name": "One More",
+                "email": "user.email@mail.com",
+                "subscription": "pro"
+              }
+            }
+          }
+        }
+      },
+      "Error400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "400"
+          },
+          "message": {
+            "type": "string",
+            "description": "responses message",
+            "example": "Bad Request"
+          }
+        },
+        "description": "Bad Request"
+      },
+      "Error403": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "403"
+          },
+          "message": {
+            "type": "string",
+            "description": "responses message",
+            "example": "Forbidden"
+          }
+        },
+        "description": "Forbidden"
+      },
+      "Error404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "description": "responses message",
+            "example": "Not Found"
+          }
+        },
+        "description": "Not Found"
+      },
+      "Error500": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "fail"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "500"
+          },
+          "message": {
+            "type": "string",
+            "description": "responses message",
+            "example": "User password is required"
+          },
+          "data": {
+            "type": "string",
+            "description": "responses data",
+            "example": "Internal Server Found"
+          }
+        },
+        "description": "Iternal Server Error"
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "contact": {
+                "favorite": false,
+                "_id": "60da3be6cff67a28381f1212",
+                "name": "Firstaa Mongo",
+                "phone": "(992) 914-3872",
+                "email": "user.email@mail.com",
+                "owner": {
+                  "name": "One More",
+                  "subscription": "pro",
+                  "_id": "60da386bff30f84fbcb908c7",
+                  "email": "owner.email@mail.com"
+                },
+                "createdAt": "2021-06-28T21:15:18.809Z",
+                "updatedAt": "2021-06-28T21:15:18.809Z"
+              }
+            }
+          }
+        }
+      },
+      "body": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name",
+            "example": "Change name user"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "Change user email"
+          }
+        }
+      },
+      "body_1": {
+        "required": [
+          "favorite"
+        ],
+        "type": "object",
+        "properties": {
+          "favorite": {
+            "type": "boolean",
+            "description": "Favorite",
+            "example": true
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "200"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "contacts": [],
+              "total": 0,
+              "limit": 5,
+              "offset": 0
+            }
+          }
+        }
+      },
+      "body_2": {
+        "required": [
+          "email",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name",
+            "example": "New user name"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "New user email"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password",
+            "example": "New user password"
+          }
+        }
+      },
+      "body_3": {
+        "required": [
+          "email",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Password",
+            "example": "some password"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name",
+            "example": "some name"
+          },
+          "subscription": {
+            "type": "string",
+            "description": "Subscription",
+            "example": "some subscription"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "some email"
+          }
+        }
+      },
+      "inline_response_201": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "id": "60d9f35e8a52085120891b18",
+              "email": "example@email.com",
+              "subscription": "pro",
+              "avatar": "https://path.to.user.avatar"
+            }
+          }
+        }
+      },
+      "inline_response_409": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "status",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "code",
+            "example": "409"
+          },
+          "message": {
+            "type": "string",
+            "description": "conflict",
+            "example": "This email already exist"
+          }
+        }
+      },
+      "body_4": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Password",
+            "example": "some password"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "some email"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "200"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "token": "User token after success login"
+            }
+          }
+        }
+      },
+      "inline_response_401": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "error"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "401"
+          },
+          "message": {
+            "type": "string",
+            "description": "responses message",
+            "example": "Invalid creadentials"
+          }
+        }
+      },
+      "body_5": {
+        "required": [
+          "subscription"
+        ],
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "type": "string",
+            "description": "Subscription",
+            "example": "starter or pro or business"
+          }
+        }
+      },
+      "body_6": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "email@example.com"
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "200"
+          },
+          "data": {
+            "type": "object",
+            "description": "responses data",
+            "example": {
+              "message": "Resubmitted success!"
+            }
+          }
+        }
+      },
+      "inline_response_200_4": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "responses status",
+            "example": "success"
+          },
+          "code": {
+            "type": "string",
+            "description": "responses code",
+            "example": "200"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "responses url",
+            "example": "https://res.cloudinary.com/inferus/image/upload/v1624917610/avatars/r8in49olqwk0mxueazau.jpg"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

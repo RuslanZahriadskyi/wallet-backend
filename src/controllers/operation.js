@@ -53,14 +53,10 @@ const getStatistic = async (req, res, next) => {
     const userId = req.user.id;
     const { month, year } = req.params;
     const getMonth = new Date(`${year}, ${month}`).getMonth();
-    const statisticFrom = Number(
-      Date.parse(new Date(year, getMonth, 2)).toString().slice(0, 10)
-    );
-    const statisticTo = Number(
-      Date.parse(new Date(year, getMonth + 1, 1))
-        .toString()
-        .slice(0, 10)
-    );
+    const statisticFrom = Number(Date.parse(new Date(year, getMonth, 2)));
+    const statisticTo = Number(Date.parse(new Date(year, getMonth + 1, 1)));
+    console.log(statisticFrom);
+    console.log(statisticTo);
 
     const statistic = await financeServices.getStatistic(
       userId,
