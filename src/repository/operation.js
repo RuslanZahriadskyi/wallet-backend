@@ -1,17 +1,20 @@
 const UserFinance = require("../schema/userOperation");
 const OperationsSchema = require("../schema/operations");
+const UserCategories = require("../schema/userCategory");
 const mongoose = require("mongoose");
 
 class OperationRepository {
   constructor() {
     this.finance = UserFinance;
     this.operation = OperationsSchema;
+    this.category = UserCategories;
   }
 
   async getAllFinance(userId) {
     const result = await this.finance.findOne({ owner: userId }).populate({
       path: "userOperations",
-      select: "amount category comments type date balanceAfter -_id",
+      select: "amount category comments type date balanceAfter _id",
+      options: { sort: { date: -1 } },
     });
 
     return result._doc;
@@ -20,10 +23,21 @@ class OperationRepository {
   async createOperation(owner, newOperation) {
     const { totalBalance } = await this.finance.findOne({ owner });
 
+    const { category } = await this.category.findOne({ owner }).populate({
+      path: "category",
+      select: "color value -_id",
+    });
+
+    const { color } = category.find(
+      (item) => item.value === newOperation.category
+    );
+
     if (newOperation.type === "income") {
       newOperation.balanceAfter = totalBalance + newOperation.amount;
+      newOperation.color = color;
     } else {
       newOperation.balanceAfter = totalBalance - newOperation.amount;
+      newOperation.color = color;
     }
 
     const operation = await this.operation.create(newOperation);
@@ -37,13 +51,10 @@ class OperationRepository {
       { new: true }
     );
 
-    return { totalBalance: addOperation.totalBalance, newOperation };
+    return { totalBalance: addOperation.totalBalance, newOperation: {} };
   }
 
   async getStatistic(userId, statisticFrom, statisticTo) {
-    console.log(userId);
-    console.log(statisticFrom);
-    console.log(statisticTo);
     const monthStatistic = await this.operation.aggregate([
       {
         $match: {
@@ -58,6 +69,7 @@ class OperationRepository {
         $group: {
           _id: "$category",
           count: { $sum: "$amount" },
+          color: { $max: "$color" },
         },
       },
       {
@@ -65,6 +77,7 @@ class OperationRepository {
           _id: 0,
           name: "$_id",
           count: 1,
+          color: 1,
         },
       },
     ]);

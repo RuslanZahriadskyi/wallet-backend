@@ -22,6 +22,9 @@ const OperationSchema = new Schema(
     balanceAfter: {
       type: Number,
     },
+    color: {
+      type: String,
+    },
     owner: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "user",
