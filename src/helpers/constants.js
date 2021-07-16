@@ -17,17 +17,6 @@ const Subscription = {
   NONE: "none",
 };
 
-// const OutlayCategory = {
-//   MAIN: "main",
-//   FOOD: "food",
-//   AUTO: "auto",
-//   DEVELOP: "develop",
-//   KIDS: "kids",
-//   HOUSE: "house",
-//   EDUCATION: "education",
-//   OTHERS: "others",
-// };
-
 const OutlayCategory = [
   { value: "Основные расходы", color: "#FED057" },
   { value: "Продукты", color: "#FFD8D0" },

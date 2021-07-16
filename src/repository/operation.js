@@ -29,7 +29,10 @@ class OperationRepository {
     });
 
     const { color } = category.find(
-      (item) => item.value === newOperation.category
+      (item) =>
+        item.value ===
+        newOperation.category.charAt(0).toUpperCase() +
+          category.slice(1).toLowerCase()
     );
 
     if (newOperation.type === "income") {
