@@ -47,8 +47,10 @@ const createCategory = async (req, res, next) => {
     );
 
     if (colorExist.length > 0 || colorForNewCategory.length < 7) {
-      colorForNewCategory =
-        "#" + Math.floor(Math.random() * 16777215).toString(16);
+      while (colorForNewCategory.length < 7) {
+        colorForNewCategory =
+          "#" + Math.floor(Math.random() * 16777215).toString(16);
+      }
     }
 
     const createNewCategory = {
