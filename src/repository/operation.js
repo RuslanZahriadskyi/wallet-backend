@@ -32,7 +32,7 @@ class OperationRepository {
       (item) =>
         item.value ===
         newOperation.category.charAt(0).toUpperCase() +
-          category.slice(1).toLowerCase()
+          newOperation.category.slice(1).toLowerCase()
     );
 
     if (newOperation.type === "income") {
