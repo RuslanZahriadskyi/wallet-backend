@@ -23,21 +23,21 @@ class OperationRepository {
   async createOperation(owner, newOperation) {
     const { totalBalance } = await this.finance.findOne({ owner });
 
-    const { category } = await this.category.findOne({ owner }).populate({
-      path: "category",
-      select: "color value -_id",
-    });
-
-    const { color } = category.find(
-      (item) =>
-        item.value ===
-        newOperation.category.charAt(0).toUpperCase() +
-          newOperation.category.slice(1).toLowerCase()
-    );
-
     if (newOperation.type === "income") {
       newOperation.balanceAfter = totalBalance + newOperation.amount;
     } else {
+      const { category } = await this.category.findOne({ owner }).populate({
+        path: "category",
+        select: "color value -_id",
+      });
+
+      const { color } = category.find(
+        (item) =>
+          item.value ===
+          newOperation.category.charAt(0).toUpperCase() +
+            newOperation.category.slice(1).toLowerCase()
+      );
+
       newOperation.balanceAfter = totalBalance - newOperation.amount;
       newOperation.color = color;
     }
