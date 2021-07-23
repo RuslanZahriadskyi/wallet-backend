@@ -82,6 +82,7 @@ class OperationRepository {
           color: 1,
         },
       },
+      { $sort: { name: 1 } },
     ]);
 
     const incomeAndOutlayAmount = await this.operation.aggregate([
