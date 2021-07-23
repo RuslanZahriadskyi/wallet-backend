@@ -10,8 +10,8 @@ class EmailService {
     const mailGenerator = new this.#GenerateTemplate({
       theme: "default",
       product: {
-        name: "Your Contacts",
-        link: "http://127.0.0.1:3000/",
+        name: "Your Wallet",
+        link: process.env.BACKEND_LINK,
       },
     });
 
@@ -19,14 +19,14 @@ class EmailService {
       body: {
         name,
         intro:
-          "Welcome to Your Private Contacts! We're very excited to have you on board.",
+          "Welcome to Your Private Wallet! We're very excited to have you on board.",
         action: {
           instructions:
-            "To get started with Your Private Contacts, please click here:",
+            "To get started with Your Private Wallet, please click here:",
           button: {
             color: "#22BC66",
             text: "Confirm your account",
-            link: `http://127.0.0.1:3000/api/users/verify/${verifyToken}`,
+            link: `${process.env.BACKEND_LINK}api/users/verify/${verifyToken}`,
           },
         },
         outro:
