@@ -1,8 +1,5 @@
 <p align="center">
  <img  src="./node-express.png" alt="Project logo"></a>
- <img  src="./mongodb.png" alt="Project logo"></a>
- <img  src="./jwt.png" alt="Project logo"></a>
- <img  src="./sendgrid.png" alt="Project logo"></a>
 </p>
 
 ## 📝 Table of Contents
