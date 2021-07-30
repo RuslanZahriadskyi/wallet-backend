@@ -1,6 +1,8 @@
 <p align="center">
-  <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
+ <img width=200px height=200px src="./node-express.png" alt="Project logo"></a>
+ <img width=200px height=200px src="./mongodb.png" alt="Project logo"></a>
+ <img width=200px height=200px src="./jwt.png" alt="Project logo"></a>
+ <img width=200px height=200px src="./sendgrid.png" alt="Project logo"></a>
 </p>
 
 <p align="center"> Few lines describ this project.
