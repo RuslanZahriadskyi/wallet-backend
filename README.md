@@ -31,7 +31,7 @@ npm install
 
 ## 🎈 Usage <a name="usage"></a>
 
-All methods how to use the system you can see on https://own-contacts.herokuapp.com/api-docs/.
+All methods how to use the system you can see on https://own-wallet.herokuapp.com/api-docs/#/.
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
