@@ -18,14 +18,14 @@ const Subscription = {
 };
 
 const OutlayCategory = [
-  { value: "Основные расходы", color: "#FED057" },
-  { value: "Продукты", color: "#FFD8D0" },
-  { value: "Машина", color: "#FD9498" },
-  { value: "Забота о себе", color: "#C5BAFF" },
-  { value: "Забота о детях", color: "#6E78E8" },
-  { value: "Товары для дома", color: "#4A56E2" },
-  { value: "Образование", color: "#81E1FF" },
-  { value: "Досуг", color: "#24CCA7" },
+  { value: "Basic outlay", color: "#FED057" },
+  { value: "Products", color: "#FFD8D0" },
+  { value: "Car", color: "#FD9498" },
+  { value: "Care of yourself", color: "#C5BAFF" },
+  { value: "Care of children", color: "#6E78E8" },
+  { value: "Household products", color: "#4A56E2" },
+  { value: "Education", color: "#81E1FF" },
+  { value: "Entertainment", color: "#24CCA7" },
 ];
 
 module.exports = { HttpCode, Subscription, OutlayCategory };

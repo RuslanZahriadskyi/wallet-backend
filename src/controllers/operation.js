@@ -22,14 +22,21 @@ const createOperation = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
-    const newOperation = {
-      date: req.body.date,
-      type: req.body.type,
-      category: req.body.category,
-      comments: req.body.comments,
-      amount: req.body.amount,
+    const { date, type, category, comments, amount } = req.body;
+
+    let newOperation = {
+      date: date,
+      type: type,
+      category: category,
+      comments: comments,
       owner: userId,
     };
+
+    if (type === "income") {
+      newOperation = { ...newOperation, amount: amount };
+    } else {
+      newOperation = { ...newOperation, amount: -amount };
+    }
 
     const operation = await financeServices.createOperation(
       userId,

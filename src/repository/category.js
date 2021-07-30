@@ -1,11 +1,16 @@
 const UserCategories = require("../schema/userCategory");
+const UserFinance = require("../schema/userOperation");
 const CategoriesShema = require("../schema/categories");
+const OperationsSchema = require("../schema/operations");
+
 const mongoose = require("mongoose");
 
 class CategoryRepository {
   constructor() {
     this.categories = UserCategories;
     this.category = CategoriesShema;
+    this.finance = UserFinance;
+    this.operation = OperationsSchema;
   }
 
   async getAllCategory(userId) {
@@ -15,6 +20,7 @@ class CategoryRepository {
         path: "category",
         select: "value color",
       });
+
     return category;
   }
 
@@ -59,6 +65,33 @@ class CategoryRepository {
     ]);
 
     return data;
+  }
+
+  async deleteCategory(userId, categoryId, category) {
+    const getIdCategoryForDelete = await this.operation.find({
+      owner: userId,
+      category,
+    });
+
+    if (getIdCategoryForDelete.length > 0) {
+      return { isDeleted: false, getIdCategoryForDelete };
+    }
+
+    const findCategory = await this.category.findOneAndDelete({
+      _id: categoryId,
+    });
+
+    if (findCategory) {
+      const deleteFromCategories = await this.categories.findOneAndUpdate(
+        { owner: userId },
+        {
+          $pull: { category: categoryId },
+        },
+        { new: true }
+      );
+    }
+
+    return { isDeleted: true, findCategory };
   }
 }
 

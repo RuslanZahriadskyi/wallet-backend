@@ -29,6 +29,16 @@ class CategoryService {
     const data = await this.repository.category.findColor(userId, color);
     return data;
   }
+
+  async deleteCategory(userId, categoryId, category) {
+    const data = await this.repository.category.deleteCategory(
+      userId,
+      categoryId,
+      category
+    );
+
+    return data;
+  }
 }
 
 module.exports = CategoryService;

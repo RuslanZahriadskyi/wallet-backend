@@ -5,6 +5,7 @@ const categoriesService = new CategoryService();
 const getAllCategory = async (req, res, next) => {
   try {
     const userId = req.user.id;
+
     const categories = await categoriesService.getAllCategory(userId);
     return res.status(HttpCode.OK).json({
       status: "success",
@@ -76,4 +77,32 @@ const createCategory = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllCategory, createCategory };
+const deleteCategory = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { category, categoryId } = req.body;
+
+    const deletedCategory = await categoriesService.deleteCategory(
+      userId,
+      categoryId,
+      category
+    );
+
+    if (deletedCategory) {
+      return res.status(HttpCode.OK).json({
+        status: "success",
+        code: HttpCode.OK,
+        data: deletedCategory,
+      });
+    }
+
+    return res.status(HttpCode.BAD_REQUEST).json({
+      status: "error",
+      code: HttpCode.BAD_REQUEST,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllCategory, createCategory, deleteCategory };

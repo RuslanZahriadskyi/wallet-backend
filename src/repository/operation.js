@@ -23,9 +23,9 @@ class OperationRepository {
   async createOperation(owner, newOperation) {
     const { totalBalance } = await this.finance.findOne({ owner });
 
-    if (newOperation.type === "income") {
-      newOperation.balanceAfter = totalBalance + newOperation.amount;
-    } else {
+    newOperation.balanceAfter = totalBalance + newOperation.amount;
+
+    if (newOperation.type === "outlay") {
       const { category } = await this.category.findOne({ owner }).populate({
         path: "category",
         select: "color value -_id",
@@ -38,7 +38,6 @@ class OperationRepository {
             newOperation.category.slice(1).toLowerCase()
       );
 
-      newOperation.balanceAfter = totalBalance - newOperation.amount;
       newOperation.color = color;
     }
 
