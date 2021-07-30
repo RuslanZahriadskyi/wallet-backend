@@ -5,10 +5,6 @@
  <img width=200px height=200px src="./sendgrid.png" alt="Project logo"></a>
 </p>
 
-<p align="center"> Few lines describ this project.
-    <br> 
-</p>
-
 ## 📝 Table of Contents
 
 - [About](#about)
