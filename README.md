@@ -1,5 +1,5 @@
 <p align="center">
- <img  src="./node-express.png" alt="Project logo"></a>
+ <img width=1000px height=420px src="./node-express.png" alt="Project logo"></a>
 </p>
 
 ## 📝 Table of Contents
