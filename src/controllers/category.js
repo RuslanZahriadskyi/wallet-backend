@@ -88,7 +88,7 @@ const deleteCategory = async (req, res, next) => {
       category
     );
 
-    if (response.findCategory && response.isDeleted) {
+    if (response.deletedCategory && response.isDeleted) {
       return res.status(HttpCode.OK).json({
         status: "success",
         code: HttpCode.OK,
@@ -99,7 +99,7 @@ const deleteCategory = async (req, res, next) => {
     return res.status(HttpCode.CONFLICT).json({
       status: "error",
       code: HttpCode.CONFLICT,
-      data: response.operationsWithCategory,
+      data: response,
     });
   } catch (error) {
     next(error);

@@ -68,21 +68,33 @@ class CategoryRepository {
   }
 
   async deleteCategory(userId, categoryId, category) {
-    const operationsWithCategory = await this.operation.find({
-      owner: userId,
-      category,
-    });
+    const operationsWithCategory = await this.operation.find(
+      {
+        owner: userId,
+        category,
+      },
+      {
+        comments: 1,
+        date: 1,
+        type: 1,
+        category: 1,
+        amount: 1,
+        balanceAfter: 1,
+        color: 1,
+        id: 1,
+      }
+    );
 
     if (operationsWithCategory.length > 0) {
       return { isDeleted: false, operationsWithCategory };
     }
 
-    const findCategory = await this.category.findOneAndDelete({
+    const deletedCategory = await this.category.findOneAndDelete({
       _id: categoryId,
     });
 
-    if (findCategory) {
-      const deleteFromCategories = await this.categories.findOneAndUpdate(
+    if (deletedCategory) {
+      await this.categories.findOneAndUpdate(
         { owner: userId },
         {
           $pull: { category: categoryId },
@@ -91,7 +103,7 @@ class CategoryRepository {
       );
     }
 
-    return { isDeleted: true, findCategory };
+    return { isDeleted: true, deletedCategory };
   }
 
   async changeCategory(userId, categoryId, newCategoryName, oldCategoryName) {
