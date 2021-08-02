@@ -68,13 +68,13 @@ class CategoryRepository {
   }
 
   async deleteCategory(userId, categoryId, category) {
-    const getCategoryForDelete = await this.operation.find({
+    const operationsWithCategory = await this.operation.find({
       owner: userId,
       category,
     });
 
-    if (getCategoryForDelete.length > 0) {
-      return { isDeleted: false, getCategoryForDelete };
+    if (operationsWithCategory.length > 0) {
+      return { isDeleted: false, operationsWithCategory };
     }
 
     const findCategory = await this.category.findOneAndDelete({
@@ -92,6 +92,39 @@ class CategoryRepository {
     }
 
     return { isDeleted: true, findCategory };
+  }
+
+  async changeCategory(userId, categoryId, newCategoryName, oldCategoryName) {
+    const findCategoryForUpdate = await this.category.findOneAndUpdate(
+      { owner: userId, _id: categoryId, value: oldCategoryName },
+      {
+        $set: { value: newCategoryName },
+      },
+      { fields: { value: 1, color: 1, id: 1 }, new: true }
+    );
+
+    if (findCategoryForUpdate) {
+      await this.operation.updateMany(
+        { owner: userId, category: oldCategoryName },
+        {
+          $set: { category: newCategoryName },
+        },
+        { multi: true, new: true }
+      );
+
+      const result = await this.finance.findOne({ owner: userId }).populate({
+        path: "userOperations",
+        select: "amount category comments type date balanceAfter _id",
+        options: { sort: { date: -1 } },
+      });
+
+      return {
+        newOperations: [...result.userOperations],
+        newCategory: findCategoryForUpdate,
+      };
+    }
+
+    return;
   }
 }
 

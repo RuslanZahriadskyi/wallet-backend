@@ -39,6 +39,17 @@ class CategoryService {
 
     return data;
   }
+
+  async changeCategory(userId, categoryId, newCategoryName, oldCategoryName) {
+    const data = await this.repository.category.changeCategory(
+      userId,
+      categoryId,
+      newCategoryName,
+      oldCategoryName
+    );
+
+    return data;
+  }
 }
 
 module.exports = CategoryService;

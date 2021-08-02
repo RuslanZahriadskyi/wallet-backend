@@ -80,34 +80,65 @@ const createCategory = async (req, res, next) => {
 const deleteCategory = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const { category, categoryId } = req.body;
+    const { category } = req.body;
 
-    const deleteCategory = await categoriesService.deleteCategory(
+    const response = await categoriesService.deleteCategory(
       userId,
-      categoryId,
+      req.params.categoryId,
       category
     );
-    console.log(
-      "🚀 ~ file: category.js ~ line 90 ~ deleteCategory ~ deleteCategory",
-      deleteCategory
-    );
 
-    if (deleteCategory.findCategory && deleteCategory.isDeleted) {
+    if (response.findCategory && response.isDeleted) {
       return res.status(HttpCode.OK).json({
         status: "success",
         code: HttpCode.OK,
-        data: deleteCategory,
+        data: response,
       });
     }
 
     return res.status(HttpCode.CONFLICT).json({
       status: "error",
       code: HttpCode.CONFLICT,
-      data: deleteCategory.getCategoryForDelete,
+      data: response.operationsWithCategory,
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getAllCategory, createCategory, deleteCategory };
+const changeCategory = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { newCategoryName, oldCategoryName } = req.body;
+
+    const changedCategory = await categoriesService.changeCategory(
+      userId,
+      req.params.categoryId,
+      newCategoryName,
+      oldCategoryName
+    );
+
+    if (changedCategory) {
+      return res.status(HttpCode.OK).json({
+        status: "success",
+        code: HttpCode.OK,
+        data: changedCategory,
+      });
+    }
+
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: "error",
+      code: HttpCode.NOT_FOUND,
+      message: "Category doesn`t exist",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getAllCategory,
+  createCategory,
+  deleteCategory,
+  changeCategory,
+};

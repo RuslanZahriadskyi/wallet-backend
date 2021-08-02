@@ -8,6 +8,7 @@ const guard = require("../../helpers/guard");
 router
   .get("/", guard, categoryControllers.getAllCategory)
   .post("/", guard, categoryControllers.createCategory)
-  .delete("/", guard, categoryControllers.deleteCategory);
+  .delete("/:categoryId", guard, categoryControllers.deleteCategory)
+  .patch("/:categoryId", guard, categoryControllers.changeCategory);
 
 module.exports = router;
