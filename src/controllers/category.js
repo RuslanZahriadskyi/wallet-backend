@@ -82,23 +82,28 @@ const deleteCategory = async (req, res, next) => {
     const userId = req.user.id;
     const { category, categoryId } = req.body;
 
-    const deletedCategory = await categoriesService.deleteCategory(
+    const deleteCategory = await categoriesService.deleteCategory(
       userId,
       categoryId,
       category
     );
+    console.log(
+      "🚀 ~ file: category.js ~ line 90 ~ deleteCategory ~ deleteCategory",
+      deleteCategory
+    );
 
-    if (deletedCategory) {
+    if (deleteCategory.findCategory && deleteCategory.isDeleted) {
       return res.status(HttpCode.OK).json({
         status: "success",
         code: HttpCode.OK,
-        data: deletedCategory,
+        data: deleteCategory,
       });
     }
 
-    return res.status(HttpCode.BAD_REQUEST).json({
+    return res.status(HttpCode.CONFLICT).json({
       status: "error",
-      code: HttpCode.BAD_REQUEST,
+      code: HttpCode.CONFLICT,
+      data: deleteCategory.getCategoryForDelete,
     });
   } catch (error) {
     next(error);

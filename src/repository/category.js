@@ -68,13 +68,13 @@ class CategoryRepository {
   }
 
   async deleteCategory(userId, categoryId, category) {
-    const getIdCategoryForDelete = await this.operation.find({
+    const getCategoryForDelete = await this.operation.find({
       owner: userId,
       category,
     });
 
-    if (getIdCategoryForDelete.length > 0) {
-      return { isDeleted: false, getIdCategoryForDelete };
+    if (getCategoryForDelete.length > 0) {
+      return { isDeleted: false, getCategoryForDelete };
     }
 
     const findCategory = await this.category.findOneAndDelete({
