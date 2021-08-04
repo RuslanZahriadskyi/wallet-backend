@@ -110,6 +110,26 @@ class OperationRepository {
 
     return { monthStatistic, incomeAndOutlayAmount };
   }
+
+  async changeOperation(userId, changedOperation) {}
+
+  async deleteOperation(userId, operationId) {
+    const operation = await this.operation.findOneAndDelete({
+      _id: operationId,
+    });
+
+    if (operation) {
+      await this.finance.findOneAndUpdate(
+        { owner: userId },
+        {
+          $pull: { userOperations: operationId },
+        },
+        { new: true }
+      );
+
+      return { isDeleted: true };
+    }
+  }
 }
 
 module.exports = OperationRepository;

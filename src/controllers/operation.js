@@ -99,4 +99,44 @@ const getStatistic = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllFinance, createOperation, getStatistic };
+const changeOperation = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    const changedOperation = await financeServices.changeOperation(
+      userId,
+      req.body
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteOperation = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    console.log(req.params);
+    const { operationId } = req.params;
+
+    const deletedOperation = await financeServices.deleteOperation(
+      userId,
+      operationId
+    );
+
+    return res.status(HttpCode.NO_CONTENT).json({
+      status: "success",
+      code: "204",
+      message: "Successful removal of the operation",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getAllFinance,
+  createOperation,
+  getStatistic,
+  changeOperation,
+  deleteOperation,
+};

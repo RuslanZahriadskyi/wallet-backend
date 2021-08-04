@@ -101,9 +101,9 @@ class CategoryRepository {
         },
         { new: true }
       );
-    }
 
-    return { isDeleted: true, deletedCategory };
+      return { isDeleted: true, deletedCategory };
+    }
   }
 
   async changeCategory(userId, categoryId, newCategoryName, oldCategoryName) {

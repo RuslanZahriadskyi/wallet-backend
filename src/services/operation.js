@@ -34,6 +34,24 @@ class FinanceService {
 
     return data;
   }
+
+  async changeOperation(userId, changedOperation) {
+    const data = await this.repository.operations.changeOperation(
+      userId,
+      changedOperation
+    );
+
+    return data;
+  }
+
+  async deleteOperation(userId, operationId) {
+    const data = await this.repository.operations.deleteOperation(
+      userId,
+      operationId
+    );
+
+    return data;
+  }
 }
 
 module.exports = FinanceService;
