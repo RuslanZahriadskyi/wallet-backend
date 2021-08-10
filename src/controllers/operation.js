@@ -22,21 +22,7 @@ const createOperation = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
-    const { date, type, category, comments, amount } = req.body;
-
-    let newOperation = {
-      date: date,
-      type: type,
-      category: category,
-      comments: comments,
-      owner: userId,
-    };
-
-    if (type === "income") {
-      newOperation = { ...newOperation, amount: amount };
-    } else {
-      newOperation = { ...newOperation, amount: -amount };
-    }
+    const newOperation = await operationInfo(req.body, userId);
 
     const operation = await financeServices.createOperation(
       userId,
@@ -103,10 +89,21 @@ const changeOperation = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
+    const newOperation = await operationInfo(req.body, userId);
+
     const changedOperation = await financeServices.changeOperation(
       userId,
-      req.body
+      req.params.operationId,
+      newOperation
     );
+
+    return res.status(HttpCode.OK).json({
+      status: "success",
+      code: HttpCode.OK,
+      data: {
+        ...changedOperation,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -115,22 +112,50 @@ const changeOperation = async (req, res, next) => {
 const deleteOperation = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    console.log(req.params);
     const { operationId } = req.params;
+
+    const operation = await operationInfo(req.body, userId);
 
     const deletedOperation = await financeServices.deleteOperation(
       userId,
-      operationId
+      operationId,
+      operation
     );
 
-    return res.status(HttpCode.NO_CONTENT).json({
+    return res.status(HttpCode.OK).json({
       status: "success",
-      code: "204",
-      message: "Successful removal of the operation",
+      code: HttpCode.OK,
+      data: deletedOperation,
     });
   } catch (error) {
     next(error);
   }
+};
+
+const operationInfo = (operation, userId) => {
+  const { date, type, category, comments, amount } = operation;
+
+  let newOperation = {
+    date,
+    type,
+    owner: userId,
+  };
+
+  if (category) {
+    newOperation = { ...newOperation, category };
+  }
+
+  if (comments) {
+    newOperation = { ...newOperation, comments };
+  }
+
+  if (type === "income") {
+    newOperation = { ...newOperation, amount };
+  } else {
+    newOperation = { ...newOperation, amount: -amount };
+  }
+
+  return newOperation;
 };
 
 module.exports = {
