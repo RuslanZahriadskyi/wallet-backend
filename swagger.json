@@ -75,14 +75,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "date",
-                  "category",
-                  "amount",
-                  "type",
-                  "balanceAfter",
-                  "typeBalanceAfter"
-                ],
+                "required": ["date", "category", "amount", "type"],
                 "properties": {
                   "date": {
                     "type": "number",
@@ -144,6 +137,246 @@
                           "amount": 4000,
                           "balanceAfter": -5000
                         },
+                        "totalBalance": 5000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 500"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/operations/{operationId}": {
+      "patch": {
+        "tags": ["operations"],
+        "summary": "Update user operations",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "operationId",
+            "required": "true",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["date", "category", "amount", "type"],
+                "properties": {
+                  "date": {
+                    "type": "number",
+                    "example": 1633878419,
+                    "description": "date"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "sallary",
+                    "description": "category"
+                  },
+                  "comments": {
+                    "type": "string",
+                    "example": "Sallary per month",
+                    "description": "comments"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 10000,
+                    "description": "amount"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "income or outlay",
+                    "description": "type"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "operations": [
+                          {
+                            "comments": "phone",
+                            "date": 1628431695000,
+                            "type": "outlay",
+                            "category": "Care of yourself",
+                            "amount": -1000,
+                            "balanceAfter": 5000,
+                            "id": "6112a41d56490989e426bf6c"
+                          },
+                          {
+                            "comments": "etui",
+                            "date": 1628431694000,
+                            "type": "outlay",
+                            "category": "Care of yourself",
+                            "amount": -1000,
+                            "balanceAfter": 6000,
+                            "id": "6112a41a56490989e426bf64"
+                          }
+                        ],
+                        "totalBalance": 5000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 403"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Iternal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error 500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["operations"],
+        "summary": "Delete user operation",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "operationId",
+            "required": "true",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["date", "amount", "type"],
+                "properties": {
+                  "date": {
+                    "type": "number",
+                    "example": 1633878419,
+                    "description": "date"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 10000,
+                    "description": "amount"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "income or outlay",
+                    "description": "type"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "responses status",
+                      "example": "success"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "responses code",
+                      "example": "200"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "responses data",
+                      "example": {
+                        "operations": [
+                          {
+                            "comments": "phone",
+                            "date": 1628431695000,
+                            "type": "outlay",
+                            "category": "Care of yourself",
+                            "amount": -1000,
+                            "balanceAfter": 5000,
+                            "id": "6112a41d56490989e426bf6c"
+                          },
+                          {
+                            "comments": "etui",
+                            "date": 1628431694000,
+                            "type": "outlay",
+                            "category": "Care of yourself",
+                            "amount": -1000,
+                            "balanceAfter": 6000,
+                            "id": "6112a41a56490989e426bf64"
+                          }
+                        ],
                         "totalBalance": 5000
                       }
                     }

@@ -21,38 +21,88 @@ class OperationRepository {
   }
 
   async createOperation(owner, newOperation) {
-    const { totalBalance } = await this.finance.findOne({ owner });
-
-    newOperation.balanceAfter = totalBalance + newOperation.amount;
-
-    if (newOperation.type === "outlay") {
-      const { category } = await this.category.findOne({ owner }).populate({
-        path: "category",
-        select: "color value -_id",
-      });
-
-      const { color } = category.find(
-        (item) =>
-          item.value ===
-          newOperation.category.charAt(0).toUpperCase() +
-            newOperation.category.slice(1).toLowerCase()
-      );
-
-      newOperation.color = color;
-    }
-
-    const operation = await this.operation.create(newOperation);
-
-    const addOperation = await this.finance.findOneAndUpdate(
-      { owner },
-      {
-        $push: { userOperations: operation },
-        totalBalance: newOperation.balanceAfter,
-      },
-      { new: true }
+    const previousOperation = await this.#getPreviousOperation(
+      owner,
+      newOperation
     );
 
-    return { totalBalance: addOperation.totalBalance, newOperation };
+    const recalculateOperations = await this.#recalculate(owner, newOperation);
+
+    if (recalculateOperations.length > 0) {
+      newOperation.balanceAfter =
+        previousOperation.balanceAfter + newOperation.amount;
+
+      if (newOperation.type === "outlay") {
+        const { category } = await this.category.findOne({ owner }).populate({
+          path: "category",
+          select: "color value -_id",
+        });
+
+        const { color } = category.find(
+          (item) =>
+            item.value ===
+            newOperation.category.charAt(0).toUpperCase() +
+              newOperation.category.slice(1).toLowerCase()
+        );
+
+        newOperation.color = color;
+      }
+
+      const operation = await this.operation.create(newOperation);
+
+      await this.finance.findOneAndUpdate(
+        { owner },
+        {
+          $push: { userOperations: operation },
+          totalBalance: newOperation.balanceAfter,
+        }
+      );
+
+      const operations = await this.#updateOperations(
+        owner,
+        recalculateOperations,
+        newOperation
+      );
+
+      const totalBalance = await this.#getBalance(owner);
+
+      return {
+        operations: [...operations, operation],
+        totalBalance,
+      };
+    } else {
+      newOperation.balanceAfter =
+        previousOperation.balanceAfter + newOperation.amount;
+
+      if (newOperation.type === "outlay") {
+        const { category } = await this.category.findOne({ owner }).populate({
+          path: "category",
+          select: "color value -_id",
+        });
+
+        const { color } = category.find(
+          (item) =>
+            item.value ===
+            newOperation.category.charAt(0).toUpperCase() +
+              newOperation.category.slice(1).toLowerCase()
+        );
+
+        newOperation.color = color;
+      }
+
+      const operation = await this.operation.create(newOperation);
+
+      const addOperation = await this.finance.findOneAndUpdate(
+        { owner },
+        {
+          $push: { userOperations: operation },
+          totalBalance: newOperation.balanceAfter,
+        },
+        { new: true }
+      );
+
+      return { totalBalance: addOperation.totalBalance, newOperation };
+    }
   }
 
   async getStatistic(userId, statisticFrom, statisticTo) {
@@ -111,24 +161,226 @@ class OperationRepository {
     return { monthStatistic, incomeAndOutlayAmount };
   }
 
-  async changeOperation(userId, changedOperation) {}
+  async changeOperation(userId, operationId, changedOperation) {
+    await this.operation.findOneAndUpdate(
+      { _id: operationId },
+      {
+        date: changedOperation.date,
+      }
+    );
 
-  async deleteOperation(userId, operationId) {
-    const operation = await this.operation.findOneAndDelete({
-      _id: operationId,
-    });
+    const previousOperation = await this.#getPreviousOperation(
+      userId,
+      changedOperation
+    );
 
-    if (operation) {
-      await this.finance.findOneAndUpdate(
+    const updatedOperation = await this.#changedOperation(
+      operationId,
+      userId,
+      changedOperation,
+      previousOperation.balanceAfter
+    );
+
+    const recalculateOperations = await this.#recalculate(
+      userId,
+      changedOperation
+    );
+
+    if (recalculateOperations.length > 0) {
+      const operations = await this.#updateOperations(
+        userId,
+        recalculateOperations,
+        updatedOperation.operation
+      );
+
+      const totalBalance = await this.#getBalance(userId);
+
+      return {
+        operations: [...operations, updatedOperation.operation],
+        totalBalance,
+      };
+    }
+
+    return updatedOperation;
+  }
+
+  async deleteOperation(userId, operationId, operationToDelete) {
+    await this.#operationDelete(userId, operationId);
+
+    const previousOperation = await this.#getPreviousOperation(
+      userId,
+      operationToDelete
+    );
+
+    const recalculateOperations = await this.#recalculate(
+      userId,
+      operationToDelete
+    );
+
+    if (recalculateOperations.length > 0) {
+      const operations = await this.#updateOperations(
+        userId,
+        recalculateOperations,
+        previousOperation
+      );
+
+      const totalBalance = await this.#getBalance(userId);
+
+      return {
+        operations,
+        totalBalance,
+      };
+    } else {
+      const balance = await this.#getBalance(userId);
+
+      const { totalBalance } = await this.finance.findOneAndUpdate(
         { owner: userId },
         {
-          $pull: { userOperations: operationId },
+          totalBalance: balance - operationToDelete.amount,
         },
         { new: true }
       );
 
-      return { isDeleted: true };
+      return { operations: [], totalBalance };
     }
+  }
+
+  async #changedOperation(operationId, userId, changedOperation, balanceAfter) {
+    const operation = await this.operation.findOneAndUpdate(
+      {
+        _id: operationId,
+      },
+      {
+        date: changedOperation.date,
+        category: changedOperation.category,
+        comments: changedOperation.comments,
+        amount: changedOperation.amount,
+        type: changedOperation.type,
+        balanceAfter: balanceAfter + changedOperation.amount,
+      },
+      {
+        fields: {
+          date: 1,
+          category: 1,
+          comments: 1,
+          amount: 1,
+          type: 1,
+          balanceAfter: 1,
+        },
+        new: true,
+      }
+    );
+
+    await this.finance.findOneAndUpdate(
+      { owner: userId },
+      {
+        totalBalance: operation.balanceAfter,
+      }
+    );
+
+    return { operation, totalBalance: operation.balanceAfter };
+  }
+
+  async #getBalance(userId) {
+    const { totalBalance } = await this.finance.findOne({
+      owner: userId,
+    });
+
+    return totalBalance;
+  }
+
+  async #getPreviousOperation(userId, operation) {
+    let previousOperation = await this.operation
+      .find({
+        owner: userId,
+        date: { $lt: operation.date },
+      })
+      .sort({ date: -1 })
+      .limit(1);
+
+    if (previousOperation.length <= 0 || !previousOperation) {
+      previousOperation = {};
+      previousOperation.balanceAfter = 0;
+
+      return previousOperation;
+    }
+
+    return previousOperation[0];
+  }
+
+  async #recalculate(userId, operation) {
+    const recalculateOperations = await this.operation.aggregate([
+      {
+        $match: {
+          $and: [
+            { owner: mongoose.Types.ObjectId(userId) },
+            { date: { $gt: operation.date } },
+          ],
+        },
+      },
+      { $sort: { date: 1 } },
+    ]);
+
+    return recalculateOperations;
+  }
+
+  async #updateOperations(userId, operations, operation) {
+    await this.finance.findOneAndUpdate(
+      { owner: userId },
+      { totalBalance: operation.balanceAfter }
+    );
+
+    console.log(operations);
+
+    const newOperations = await (async () => {
+      let recalculatedOperations = [];
+
+      for (let i = 0; i < operations.length; i++) {
+        const totalBalance = await this.#getBalance(userId);
+
+        const operationUpdate = await this.operation.findOneAndUpdate(
+          { _id: operations[i]._id },
+          { balanceAfter: totalBalance + operations[i].amount },
+          {
+            fields: {
+              date: 1,
+              category: 1,
+              comments: 1,
+              amount: 1,
+              type: 1,
+              balanceAfter: 1,
+            },
+            new: true,
+          }
+        );
+
+        await this.finance.findOneAndUpdate(
+          { owner: userId },
+          {
+            totalBalance: operationUpdate.balanceAfter,
+          }
+        );
+
+        recalculatedOperations.push(operationUpdate);
+      }
+
+      return recalculatedOperations;
+    })();
+
+    return newOperations;
+  }
+
+  async #operationDelete(userId, operationId) {
+    await this.operation.findOneAndDelete({
+      _id: operationId,
+    });
+
+    await this.finance.findOneAndUpdate(
+      { owner: userId },
+      {
+        $pull: { userOperations: operationId },
+      }
+    );
   }
 }
 

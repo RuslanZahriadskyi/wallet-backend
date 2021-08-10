@@ -35,19 +35,21 @@ class FinanceService {
     return data;
   }
 
-  async changeOperation(userId, changedOperation) {
+  async changeOperation(userId, operationId, cahangedOperation) {
     const data = await this.repository.operations.changeOperation(
       userId,
-      changedOperation
+      operationId,
+      cahangedOperation
     );
 
     return data;
   }
 
-  async deleteOperation(userId, operationId) {
+  async deleteOperation(userId, operationId, operationToDelete) {
     const data = await this.repository.operations.deleteOperation(
       userId,
-      operationId
+      operationId,
+      operationToDelete
     );
 
     return data;
