@@ -58,18 +58,9 @@ class OperationRepository {
         }
       );
 
-      const operations = await this.#updateOperations(
-        owner,
-        recalculateOperations,
-        newOperation
-      );
+      await this.#updateOperations(owner, recalculateOperations, newOperation);
 
-      const totalBalance = await this.#getBalance(owner);
-
-      return {
-        operations: [...operations, operation],
-        totalBalance,
-      };
+      return await this.getAllFinance(owner);
     } else {
       newOperation.balanceAfter =
         previousOperation.balanceAfter + newOperation.amount;
@@ -92,7 +83,7 @@ class OperationRepository {
 
       const operation = await this.operation.create(newOperation);
 
-      const addOperation = await this.finance.findOneAndUpdate(
+      await this.finance.findOneAndUpdate(
         { owner },
         {
           $push: { userOperations: operation },
@@ -101,7 +92,7 @@ class OperationRepository {
         { new: true }
       );
 
-      return { totalBalance: addOperation.totalBalance, newOperation };
+      return await this.getAllFinance(owner);
     }
   }
 
@@ -187,21 +178,16 @@ class OperationRepository {
     );
 
     if (recalculateOperations.length > 0) {
-      const operations = await this.#updateOperations(
+      await this.#updateOperations(
         userId,
         recalculateOperations,
         updatedOperation.operation
       );
 
-      const totalBalance = await this.#getBalance(userId);
-
-      return {
-        operations: [...operations, updatedOperation.operation],
-        totalBalance,
-      };
+      return await this.getAllFinance(userId);
     }
 
-    return updatedOperation;
+    return await this.getAllFinance(userId);
   }
 
   async deleteOperation(userId, operationId, operationToDelete) {
@@ -218,30 +204,15 @@ class OperationRepository {
     );
 
     if (recalculateOperations.length > 0) {
-      const operations = await this.#updateOperations(
+      await this.#updateOperations(
         userId,
         recalculateOperations,
         previousOperation
       );
 
-      const totalBalance = await this.#getBalance(userId);
-
-      return {
-        operations,
-        totalBalance,
-      };
+      return await this.getAllFinance(userId);
     } else {
-      const balance = await this.#getBalance(userId);
-
-      const { totalBalance } = await this.finance.findOneAndUpdate(
-        { owner: userId },
-        {
-          totalBalance: balance - operationToDelete.amount,
-        },
-        { new: true }
-      );
-
-      return { operations: [], totalBalance };
+      return await this.getAllFinance(userId);
     }
   }
 
@@ -329,8 +300,6 @@ class OperationRepository {
       { owner: userId },
       { totalBalance: operation.balanceAfter }
     );
-
-    console.log(operations);
 
     const newOperations = await (async () => {
       let recalculatedOperations = [];

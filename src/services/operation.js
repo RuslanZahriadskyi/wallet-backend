@@ -9,7 +9,7 @@ class FinanceService {
 
   async getAllFinance(userId, query) {
     const data = await this.repository.operations.getAllFinance(userId, query);
-    const { userOperations, totalBalance, typeTotalBalance } = data;
+    const { userOperations, totalBalance } = data;
     return {
       userOperations,
       totalBalance,
@@ -22,7 +22,11 @@ class FinanceService {
       newOperation
     );
 
-    return data;
+    const { userOperations, totalBalance } = data;
+    return {
+      userOperations,
+      totalBalance,
+    };
   }
 
   async getStatistic(userId, statisticFrom, statisticTo) {
@@ -42,7 +46,11 @@ class FinanceService {
       cahangedOperation
     );
 
-    return data;
+    const { userOperations, totalBalance } = data;
+    return {
+      userOperations,
+      totalBalance,
+    };
   }
 
   async deleteOperation(userId, operationId, operationToDelete) {
@@ -52,7 +60,11 @@ class FinanceService {
       operationToDelete
     );
 
-    return data;
+    const { userOperations, totalBalance } = data;
+    return {
+      userOperations,
+      totalBalance,
+    };
   }
 }
 
