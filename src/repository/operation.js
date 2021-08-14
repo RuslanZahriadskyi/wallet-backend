@@ -187,6 +187,13 @@ class OperationRepository {
       return await this.getAllFinance(userId);
     }
 
+    await this.finance.findOneAndUpdate(
+      { owner: userId },
+      {
+        totalBalance: previousOperation.balanceAfter,
+      }
+    );
+
     return await this.getAllFinance(userId);
   }
 
@@ -212,6 +219,13 @@ class OperationRepository {
 
       return await this.getAllFinance(userId);
     } else {
+      await this.finance.findOneAndUpdate(
+        { owner: userId },
+        {
+          totalBalance: previousOperation.balanceAfter,
+        }
+      );
+
       return await this.getAllFinance(userId);
     }
   }
