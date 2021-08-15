@@ -185,16 +185,17 @@ class OperationRepository {
       );
 
       return await this.getAllFinance(userId);
+    } else {
+      await this.finance.findOneAndUpdate(
+        { owner: userId },
+        {
+          totalBalance:
+            previousOperation.balanceAfter + changedOperation.amount,
+        }
+      );
+
+      return await this.getAllFinance(userId);
     }
-
-    await this.finance.findOneAndUpdate(
-      { owner: userId },
-      {
-        totalBalance: previousOperation.balanceAfter,
-      }
-    );
-
-    return await this.getAllFinance(userId);
   }
 
   async deleteOperation(userId, operationId, operationToDelete) {
@@ -283,7 +284,7 @@ class OperationRepository {
       .sort({ date: -1 })
       .limit(1);
 
-    if (previousOperation.length <= 0 || !previousOperation) {
+    if (previousOperation.length === 0 || !previousOperation) {
       previousOperation = {};
       previousOperation.balanceAfter = 0;
 

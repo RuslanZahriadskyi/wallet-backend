@@ -138,6 +138,7 @@ const operationInfo = (operation, userId) => {
   let newOperation = {
     date,
     type,
+    amount,
     owner: userId,
   };
 
