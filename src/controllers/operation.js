@@ -46,8 +46,8 @@ const getStatistic = async (req, res, next) => {
     const userId = req.user.id;
     const { month, year } = req.params;
     const getMonth = new Date(`${year}, ${month}`).getMonth();
-    const statisticFrom = Number(Date.parse(new Date(year, getMonth, 2)));
-    const statisticTo = Number(Date.parse(new Date(year, getMonth + 1, 1)));
+    const statisticFrom = Number(Date.parse(new Date(year, getMonth)));
+    const statisticTo = Number(Date.parse(new Date(year, getMonth + 1)));
 
     const statistic = await financeServices.getStatistic(
       userId,

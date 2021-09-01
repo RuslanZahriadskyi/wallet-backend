@@ -684,6 +684,23 @@
           }
         ],
         "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["category"],
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "example": "Care of yourself",
+                    "description": "care of yourself"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success",
